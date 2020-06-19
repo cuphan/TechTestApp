@@ -5,9 +5,9 @@ jobs:
       - image: circleci/golang:1.14
       - image: circleci/postgres:9.6
         environment:
-          POSTGRES_USER: techtestuser
-          POSTGRES_DB: techtestdb
-          POSTGRES_PASSWORD: "u5eR36tH5x59zh6P"
+          POSTGRES_USER: postgres
+          POSTGRES_DB: app
+          POSTGRES_PASSWORD: changeme
     steps:
       - checkout
       - run: go get -v -t -d ./...
