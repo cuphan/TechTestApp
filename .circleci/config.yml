@@ -7,11 +7,42 @@ jobs:
         environment:
           POSTGRES_USER: techtestuser
           POSTGRES_DB: techtestdb
+          POSTGRES_PASSWORD: "u5eR36tH5x59zh6P"
     steps:
       - checkout
       - run: go get -v -t -d ./...
       - run: go build -v
       - run: go test -v -race -cover ./...
+      - run:
+          name: Get the TechTestApp version
+          command: |
+            go get -v -t -d ./...
+            mkdir output
+            go build -v -o TechTestApp .
+            ls
+            ./TechTestApp --version | sed -e 's/TechTestApp version /v./' > versionfile
+      - run: 
+          name: Build for linux
+          environment:
+            GOOS: linux
+            GOARCH: amd64
+          command: |
+            if [ -d "dist" ]; then
+              rm -rf dist
+            fi
+            
+            mkdir -p dist
+            
+            go build -v -o TechTestApp .
+            
+            cp TechTestApp dist/
+            cp -r assets dist/
+            cp conf.toml dist/
+            
+            rm TechTestApp
+            export version=$(cat versionfile)
+            
+            zip -r "output/TechTestApp_${version}_linux64.zip" dist/*
 workflows:
   version: 2
   build-workflow:
