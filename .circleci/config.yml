@@ -55,7 +55,7 @@ jobs:
           name: Copy binary to server
           command: |
             export version=$(cat versionfile)
-            scp "output/TechTestApp_${version}_linux64.zip" servian@108.61.212.207:/home/servian/
+            scp -o StrictHostKeyChecking=no "output/TechTestApp_${version}_linux64.zip" servian@108.61.212.207:/home/servian/
 workflows:
   version: 2
   build-deploy:
