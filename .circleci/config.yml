@@ -45,9 +45,9 @@ jobs:
             zip -r "output/TechTestApp_${version}_linux64.zip" dist/*
   deploy:
     steps:
-      add_ssh_keys:
-        fingerprints:
-          - "37:3e:4a:06:f6:3f:a5:16:77:9e:0c:f3:5e:fd:71:af"
+      - add_ssh_keys:
+          fingerprints:
+            - "37:3e:4a:06:f6:3f:a5:16:77:9e:0c:f3:5e:fd:71:af"
       - run:
           name: Copy binary to server
           command: |
