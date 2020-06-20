@@ -49,35 +49,35 @@ jobs:
     steps:
       - checkout
       - run:
-        name: Get the TechTestApp version
-        command: |
-          go get -v -t -d ./...
-          mkdir output
-          go build -v -o TechTestApp .
-          ls
-          ./TechTestApp --version | sed -e 's/TechTestApp version /v./' > versionfile
+          name: Get the TechTestApp version
+          command: |
+            go get -v -t -d ./...
+            mkdir output
+            go build -v -o TechTestApp .
+            ls
+            ./TechTestApp --version | sed -e 's/TechTestApp version /v./' > versionfile
       - run: 
-        name: Build for linux
-        environment:
-          GOOS: linux
-          GOARCH: amd64
-        command: |
-          if [ -d "dist" ]; then
-            rm -rf dist
-          fi
-          
-          mkdir -p dist
-          
-          go build -v -o TechTestApp .
-          
-          cp TechTestApp dist/
-          cp -r assets dist/
-          cp conf.toml dist/
-          
-          rm TechTestApp
-          export version=$(cat versionfile)
-          
-          zip -r "output/TechTestApp_${version}_linux64.zip" dist/*
+          name: Build for linux
+          environment:
+            GOOS: linux
+            GOARCH: amd64
+          command: |
+            if [ -d "dist" ]; then
+              rm -rf dist
+            fi
+            
+            mkdir -p dist
+            
+            go build -v -o TechTestApp .
+            
+            cp TechTestApp dist/
+            cp -r assets dist/
+            cp conf.toml dist/
+            
+            rm TechTestApp
+            export version=$(cat versionfile)
+            
+            zip -r "output/TechTestApp_${version}_linux64.zip" dist/*
       - add_ssh_keys:
           fingerprints:
             - "37:3e:4a:06:f6:3f:a5:16:77:9e:0c:f3:5e:fd:71:af"
